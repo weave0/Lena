@@ -1,0 +1,49 @@
+{
+  "name": "meetconnect",
+  "version": "0.1.0",
+  "description": "A social app for meeting people in real life through shared activities",
+  "private": true,
+  "workspaces": [
+    "mobile",
+    "web",
+    "backend",
+    "shared"
+  ],
+  "scripts": {
+    "install:all": "npm install && npm run install:mobile && npm run install:web && npm run install:backend",
+    "install:mobile": "cd mobile && npm install",
+    "install:web": "cd web && npm install",
+    "install:backend": "cd backend && npm install",
+    "dev:mobile": "cd mobile && npm start",
+    "dev:web": "cd web && npm start",
+    "dev:backend": "cd backend && npm run dev",
+    "dev:all": "concurrently \"npm run dev:backend\" \"npm run dev:web\"",
+    "build:web": "cd web && npm run build",
+    "build:mobile": "cd mobile && npm run build",
+    "test": "npm run test --workspaces",
+    "lint": "npm run lint --workspaces",
+    "clean": "npm run clean --workspaces && rm -rf node_modules"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.3.3"
+  },
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "TBD"
+  },
+  "keywords": [
+    "social",
+    "meetup",
+    "activities",
+    "travel",
+    "react-native",
+    "real-life-connections"
+  ],
+  "author": "Lena",
+  "license": "PROPRIETARY"
+}

@@ -1,0 +1,11 @@
+{
+  "name": "meetconnect-shared",
+  "version": "0.1.0",
+  "description": "Shared types and utilities for MeetConnect",
+  "main": "index.ts",
+  "types": "types.ts",
+  "private": true,
+  "scripts": {
+    "clean": "rm -rf node_modules"
+  }
+}
