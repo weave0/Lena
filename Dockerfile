@@ -1,49 +1,45 @@
-# Multi-stage build for production
-
-# Stage 1: Build all workspaces
+# Railway Dockerfile - Backend only
 FROM node:18-alpine AS builder
 
 WORKDIR /app
 
-# Copy package files
+# Copy package files for workspace resolution
 COPY package*.json ./
-COPY web/package*.json ./web/
 COPY backend/package*.json ./backend/
-COPY mobile/package*.json ./mobile/
 COPY shared/package*.json ./shared/
 
-# Install dependencies
-RUN npm ci --workspaces
+# Install all dependencies (including devDependencies for build)
+RUN npm install --legacy-peer-deps
 
 # Copy source code
-COPY . .
+COPY backend ./backend
+COPY shared ./shared
 
-# Build all projects
-RUN npm run build
+# Build backend
+WORKDIR /app/backend
+RUN npx tsc
 
-# Stage 2: Production backend
-FROM node:18-alpine AS backend
+# Production stage
+FROM node:18-alpine
 
 WORKDIR /app
 
-# Copy only backend production files
-COPY --from=builder /app/backend/dist ./backend/dist
-COPY --from=builder /app/backend/package*.json ./backend/
-COPY --from=builder /app/shared ./shared
+# Copy built files and package.json
+COPY --from=builder /app/backend/dist ./dist
+COPY --from=builder /app/backend/package*.json ./
+COPY --from=builder /app/shared ../shared
 
 # Install production dependencies only
-RUN cd backend && npm ci --production
+RUN npm ci --production --legacy-peer-deps || npm install --production --legacy-peer-deps
+
+# Set environment
+ENV NODE_ENV=production
+ENV PORT=3000
 
 EXPOSE 3000
 
-CMD ["node", "backend/dist/server.js"]
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD node -e "require('http').get('http://localhost:3000/health', (r) => {if (r.statusCode !== 200) throw new Error('Health check failed')})"
 
-# Stage 3: Production web (for static hosting)
-FROM nginx:alpine AS web
-
-COPY --from=builder /app/web/dist /usr/share/nginx/html
-COPY web/nginx.conf /etc/nginx/conf.d/default.conf
-
-EXPOSE 80
-
-CMD ["nginx", "-g", "daemon off;"]
+CMD ["node", "dist/server.js"]
