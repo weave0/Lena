@@ -16,7 +16,7 @@ export default function HomePage() {
       <header className="relative z-10 glass">
         <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex justify-between items-center">
-            <h1 className="text-3xl font-bold text-gradient">✨ MeetConnect</h1>
+            <h1 className="text-3xl font-bold text-gradient">✨ Lena</h1>
             <div className="flex items-center space-x-4">
               <Link to="/activities" className="text-slate-700 dark:text-slate-300 hover:text-cosmic-600 dark:hover:text-cosmic-400 transition-colors font-medium hidden sm:inline">
                 {t('activities')}

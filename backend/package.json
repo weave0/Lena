@@ -1,7 +1,7 @@
 {
-  "name": "meetconnect-backend",
+  "name": "lena-backend",
   "version": "0.1.0",
-  "description": "Backend API for MeetConnect",
+  "description": "Backend API for Lena",
   "main": "dist/server.js",
   "scripts": {
     "dev": "nodemon src/server.ts",

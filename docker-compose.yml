@@ -1,18 +1,18 @@
-version: '3.8'
+version: "3.8"
 
 services:
   postgres:
     image: postgres:15-alpine
     environment:
-      POSTGRES_USER: meetconnect
+      POSTGRES_USER: lena
       POSTGRES_PASSWORD: devpassword
-      POSTGRES_DB: meetconnect
+      POSTGRES_DB: lena
     ports:
-      - '5432:5432'
+      - "5432:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U meetconnect']
+      test: ["CMD-SHELL", "pg_isready -U meetconnect"]
       interval: 10s
       timeout: 5s
       retries: 5
@@ -20,11 +20,11 @@ services:
   redis:
     image: redis:7-alpine
     ports:
-      - '6379:6379'
+      - "6379:6379"
     volumes:
       - redis_data:/data
     healthcheck:
-      test: ['CMD', 'redis-cli', 'ping']
+      test: ["CMD", "redis-cli", "ping"]
       interval: 10s
       timeout: 3s
       retries: 5
@@ -34,10 +34,10 @@ services:
       context: .
       target: backend
     ports:
-      - '3000:3000'
+      - "3000:3000"
     environment:
       NODE_ENV: development
-      DATABASE_URL: postgresql://meetconnect:devpassword@postgres:5432/meetconnect
+      DATABASE_URL: postgresql://lena:devpassword@postgres:5432/lena
       REDIS_URL: redis://redis:6379
       JWT_SECRET: dev-secret-change-in-production
     depends_on:
@@ -55,7 +55,7 @@ services:
       dockerfile: Dockerfile
       target: web
     ports:
-      - '5173:80'
+      - "5173:80"
     environment:
       VITE_API_URL: http://localhost:3000
     depends_on:
