@@ -1,18 +1,88 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
+@layer base {
+  * {
+    @apply border-border;
+  }
+  
+  :root {
+    font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+    line-height: 1.5;
+    font-weight: 400;
+  }
+
+  body {
+    margin: 0;
+    min-height: 100vh;
+    @apply bg-gradient-to-br from-slate-50 via-blue-50 to-purple-50 dark:from-slate-950 dark:via-blue-950 dark:to-purple-950;
+    @apply text-slate-900 dark:text-slate-100;
+    @apply font-body;
+    @apply antialiased;
+  }
+  
+  #root {
+    min-height: 100vh;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-display font-semibold;
+  }
 }
 
-body {
-  margin: 0;
-  min-height: 100vh;
+@layer components {
+  .glass {
+    @apply bg-white/70 dark:bg-slate-900/70 backdrop-blur-xl border border-white/20 dark:border-slate-800/50;
+  }
+  
+  .glass-hover {
+    @apply glass hover:bg-white/80 dark:hover:bg-slate-900/80 transition-all duration-300;
+  }
+  
+  .cosmic-card {
+    @apply glass rounded-3xl shadow-xl hover:shadow-2xl transition-all duration-500;
+    @apply hover:scale-[1.02] hover:-translate-y-1;
+  }
+  
+  .btn-cosmic {
+    @apply px-6 py-3 rounded-full font-semibold;
+    @apply bg-gradient-to-r from-cosmic-500 to-aurora-500;
+    @apply text-white shadow-lg hover:shadow-xl;
+    @apply transform transition-all duration-300;
+    @apply hover:scale-105 hover:brightness-110;
+    @apply active:scale-95;
+  }
+  
+  .btn-harmony {
+    @apply px-6 py-3 rounded-full font-semibold;
+    @apply bg-gradient-to-r from-harmony-500 to-cosmic-500;
+    @apply text-white shadow-lg hover:shadow-xl;
+    @apply transform transition-all duration-300;
+    @apply hover:scale-105 hover:brightness-110;
+    @apply active:scale-95;
+  }
+  
+  .floating-orb {
+    @apply absolute rounded-full blur-3xl opacity-30 animate-float;
+  }
+  
+  .text-gradient {
+    @apply bg-clip-text text-transparent bg-gradient-to-r from-cosmic-600 via-aurora-600 to-harmony-600;
+  }
+  
+  .connection-line {
+    @apply h-px bg-gradient-to-r from-transparent via-cosmic-400 to-transparent opacity-50;
+  }
 }
 
-#root {
-  min-height: 100vh;
+@layer utilities {
+  .animation-delay-2000 {
+    animation-delay: 2s;
+  }
+  .animation-delay-4000 {
+    animation-delay: 4s;
+  }
 }
