@@ -1,95 +1,95 @@
 name: 🚀 Deploy to Production
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+    push:
+        branches: [main]
+    pull_request:
+        branches: [main]
 
 jobs:
-  # Build and test backend
-  backend:
-    name: 🔧 Backend Build & Test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'npm'
-      
-      - name: Install dependencies
-        run: |
-          npm install --legacy-peer-deps
-          npm install --force typescript@5.3.3 @types/express @types/compression @types/morgan
-      
-      - name: Build backend
-        run: |
-          cd backend
-          npx tsc
-      
-      - name: Run tests
-        run: npm run test --workspace=backend --if-present
-      
-      - name: Notify success
-        if: success()
-        run: echo "✅ Backend build successful!"
+    # Build and test backend
+    backend:
+        name: 🔧 Backend Build & Test
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
 
-  # Build and test web app
-  web:
-    name: 🌐 Web Build & Test
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Setup Node.js
-        uses: actions/setup-node@v3
-        with:
-          node-version: '18'
-          cache: 'npm'
-      
-      - name: Install dependencies
-        run: |
-          npm install --legacy-peer-deps
-          npm install --force vite@5.4.21 @vitejs/plugin-react@4.7.0
-      
-      - name: Build web app
-        run: |
-          cd web
-          npx vite build
-      
-      - name: Run tests
-        run: npm run test --workspace=web --if-present
-      
-      - name: Notify success
-        if: success()
-        run: echo "✅ Web build successful!"
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "18"
+                  cache: "npm"
 
-  # Deploy to Railway (backend)
-  deploy-railway:
-    name: 🚂 Deploy Backend to Railway
-    needs: [backend]
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Deploy to Railway
-        run: echo "Railway auto-deploys from main branch"
-      
-      - name: Notify deployment
-        run: echo "🚂 Railway deployment triggered!"
+            - name: Install dependencies
+              run: |
+                  npm install --legacy-peer-deps
+                  npm install --force typescript@5.3.3 @types/express @types/compression @types/morgan
 
-  # Deploy to Vercel (web)
-  deploy-vercel:
-    name: ☁️ Deploy Web to Vercel
-    needs: [web]
-    runs-on: ubuntu-latest
-    if: github.ref == 'refs/heads/main'
-    steps:
-      - uses: actions/checkout@v3
-      
-      - name: Notify deployment
-        run: echo "☁️ Vercel auto-deploys from main branch"
+            - name: Build backend
+              run: |
+                  cd backend
+                  npx tsc
+
+            - name: Run tests
+              run: npm run test --workspace=backend --if-present
+
+            - name: Notify success
+              if: success()
+              run: echo "✅ Backend build successful!"
+
+    # Build and test web app
+    web:
+        name: 🌐 Web Build & Test
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Setup Node.js
+              uses: actions/setup-node@v3
+              with:
+                  node-version: "18"
+                  cache: "npm"
+
+            - name: Install dependencies
+              run: |
+                  npm install --legacy-peer-deps
+                  npm install --force vite@5.4.21 @vitejs/plugin-react@4.7.0
+
+            - name: Build web app
+              run: |
+                  cd web
+                  npx vite build
+
+            - name: Run tests
+              run: npm run test --workspace=web --if-present
+
+            - name: Notify success
+              if: success()
+              run: echo "✅ Web build successful!"
+
+    # Deploy to Railway (backend)
+    deploy-railway:
+        name: 🚂 Deploy Backend to Railway
+        needs: [backend]
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/main'
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Deploy to Railway
+              run: echo "Railway auto-deploys from main branch"
+
+            - name: Notify deployment
+              run: echo "🚂 Railway deployment triggered!"
+
+    # Deploy to Vercel (web)
+    deploy-vercel:
+        name: ☁️ Deploy Web to Vercel
+        needs: [web]
+        runs-on: ubuntu-latest
+        if: github.ref == 'refs/heads/main'
+        steps:
+            - uses: actions/checkout@v3
+
+            - name: Notify deployment
+              run: echo "☁️ Vercel auto-deploys from main branch"
