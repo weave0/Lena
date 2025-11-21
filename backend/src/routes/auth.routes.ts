@@ -1,5 +1,7 @@
 import { Router } from 'express';
 import { body } from 'express-validator';
+import { register, login, getMe } from '../controllers/auth.controller';
+import { authenticateToken } from '../middleware/auth.middleware';
 
 const router = Router();
 
@@ -11,10 +13,7 @@ router.post(
     body('password').isLength({ min: 8 }),
     body('name').trim().notEmpty(),
   ],
-  async (req, res) => {
-    // TODO: Implement registration logic
-    res.json({ message: 'Register endpoint - to be implemented' });
-  }
+  register
 );
 
 // POST /api/auth/login
@@ -24,16 +23,10 @@ router.post(
     body('email').isEmail().normalizeEmail(),
     body('password').notEmpty(),
   ],
-  async (req, res) => {
-    // TODO: Implement login logic
-    res.json({ message: 'Login endpoint - to be implemented' });
-  }
+  login
 );
 
-// GET /api/auth/me
-router.get('/me', async (req, res) => {
-  // TODO: Implement get current user logic
-  res.json({ message: 'Get current user - to be implemented' });
-});
+// GET /api/auth/me (protected)
+router.get('/me', authenticateToken, getMe);
 
 export default router;

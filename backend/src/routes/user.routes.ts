@@ -1,20 +1,16 @@
 import { Router } from 'express';
+import { getUsers, getUserById, updateUser } from '../controllers/user.controller';
+import { authenticateToken } from '../middleware/auth.middleware';
 
 const router = Router();
 
-// GET /api/users
-router.get('/', async (req, res) => {
-  res.json({ message: 'Get users - to be implemented' });
-});
+// GET /api/users (protected)
+router.get('/', authenticateToken, getUsers);
 
-// GET /api/users/:id
-router.get('/:id', async (req, res) => {
-  res.json({ message: 'Get user by ID - to be implemented' });
-});
+// GET /api/users/:id (protected)
+router.get('/:id', authenticateToken, getUserById);
 
-// PUT /api/users/:id
-router.put('/:id', async (req, res) => {
-  res.json({ message: 'Update user - to be implemented' });
-});
+// PUT /api/users/:id (protected)
+router.put('/:id', authenticateToken, updateUser);
 
 export default router;

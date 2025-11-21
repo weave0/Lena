@@ -1,25 +1,22 @@
 import { Router } from 'express';
+import { getActivities, getActivityById, createActivity, joinActivity, leaveActivity } from '../controllers/activity.controller';
+import { authenticateToken } from '../middleware/auth.middleware';
 
 const router = Router();
 
-// GET /api/activities
-router.get('/', async (req, res) => {
-  res.json({ message: 'Get activities - to be implemented' });
-});
+// GET /api/activities (protected)
+router.get('/', authenticateToken, getActivities);
 
-// POST /api/activities
-router.post('/', async (req, res) => {
-  res.json({ message: 'Create activity - to be implemented' });
-});
+// POST /api/activities (protected)
+router.post('/', authenticateToken, createActivity);
 
-// GET /api/activities/:id
-router.get('/:id', async (req, res) => {
-  res.json({ message: 'Get activity details - to be implemented' });
-});
+// GET /api/activities/:id (protected)
+router.get('/:id', authenticateToken, getActivityById);
 
-// POST /api/activities/:id/join
-router.post('/:id/join', async (req, res) => {
-  res.json({ message: 'Join activity - to be implemented' });
-});
+// POST /api/activities/:id/join (protected)
+router.post('/:id/join', authenticateToken, joinActivity);
+
+// POST /api/activities/:id/leave (protected)
+router.post('/:id/leave', authenticateToken, leaveActivity);
 
 export default router;
