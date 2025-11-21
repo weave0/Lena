@@ -87,6 +87,8 @@
   "author": "Lena",
   "license": "PROPRIETARY",
   "dependencies": {
-    "@types/multer": "^1.4.11"
+    "@types/multer": "^1.4.11",
+    "@vitejs/plugin-react": "^5.1.1",
+    "vite": "^7.2.4"
   }
 }
